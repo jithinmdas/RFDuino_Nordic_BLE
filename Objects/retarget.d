@@ -1,0 +1,14 @@
+.\objects\retarget.o: RTE\nRF_Libraries\nRF51822_xxAA\retarget.c
+.\objects\retarget.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\retarget.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\retarget.o: E:\workspace\Keil\Nordic\RFduino\RFDuino_Nordic_BLE\RTE\nRF_Drivers\nRF51822_xxAA\app_uart.h
+.\objects\retarget.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\retarget.o: C:\Keil_v5\ARM\PACK\NordicSemiconductor\nRF_Libraries\3.0.0\util\app_util_platform.h
+.\objects\retarget.o: C:\Keil_v5\ARM\PACK\NordicSemiconductor\nRF_DeviceFamilyPack\8.0.3\Device\Include\compiler_abstraction.h
+.\objects\retarget.o: C:\Keil_v5\ARM\PACK\NordicSemiconductor\nRF_DeviceFamilyPack\8.0.3\Device\Include\nrf51.h
+.\objects\retarget.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cm0.h
+.\objects\retarget.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmInstr.h
+.\objects\retarget.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmFunc.h
+.\objects\retarget.o: C:\Keil_v5\ARM\PACK\NordicSemiconductor\nRF_DeviceFamilyPack\8.0.3\Device\Include\system_nrf51.h
+.\objects\retarget.o: C:\Keil_v5\ARM\PACK\NordicSemiconductor\nRF_Libraries\3.0.0\util\nordic_common.h
+.\objects\retarget.o: C:\Keil_v5\ARM\PACK\NordicSemiconductor\nRF_SoftDevice_S110\8.0.1\headers\nrf_error.h
