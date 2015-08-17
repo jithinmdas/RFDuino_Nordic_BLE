@@ -17,7 +17,7 @@
 #include "ble_nus.h"
 
 #define IS_SRVC_CHANGED_CHARACT_PRESENT 0
-#define DEVICE_NAME                     "Custom_Service"
+#define DEVICE_NAME                     "RFduino BLE"
 
 #define CONN_SUP_TIMEOUT    MSEC_TO_UNITS(4000, UNIT_10_MS) 
 #define MAX_CONN_INTERVAL   MSEC_TO_UNITS(75, UNIT_1_25_MS)
@@ -31,11 +31,14 @@
 #define NEXT_CONN_PARAMS_UPDATE_DELAY   APP_TIMER_TICKS(30000, APP_TIMER_PRESCALER) 
 #define MAX_CONN_PARAMS_UPDATE_COUNT    3  
 
+static ble_nus_t                        m_nus; 
+
 void scheduler_init(void);
 static void ble_evt_handler(ble_evt_t * p_ble_evt);
 static void on_adv_evt(ble_adv_evt_t ble_adv_evt);
 static void on_conn_params_evt(ble_conn_params_evt_t * p_evt);
 static void conn_params_error_handler(uint32_t nrf_error);
+static void nus_data_handler(ble_nus_t * p_nus, uint8_t * p_data, uint16_t length);
 
 void ble_stack_init()
 {
@@ -78,6 +81,7 @@ void gap_params_init()
     APP_ERROR_CHECK(err_code);
     
     memset(&ble_gap_conn_params, 0, sizeof(ble_gap_conn_params));
+    
     ble_gap_conn_params.conn_sup_timeout = CONN_SUP_TIMEOUT;
     ble_gap_conn_params.max_conn_interval = MAX_CONN_INTERVAL;
     ble_gap_conn_params.min_conn_interval = MIN_CONN_INTERVAL;
@@ -89,7 +93,19 @@ void gap_params_init()
 
 void services_init(void)
 {
+    uint32_t       err_code;
+    ble_nus_init_t nus_init;
+    
+    memset(&nus_init, 0, sizeof(nus_init));
 
+    nus_init.data_handler = nus_data_handler;
+    
+    err_code = ble_nus_init(&m_nus, &nus_init);
+    APP_ERROR_CHECK(err_code);
+}
+
+static void nus_data_handler(ble_nus_t * p_nus, uint8_t * p_data, uint16_t length)
+{
 }
 
 void advertising_init(void)
@@ -152,6 +168,14 @@ static void power_manage(void)
     APP_ERROR_CHECK(err_code);
 }
 
+void data_send()
+{
+    static uint8_t data_array[BLE_NUS_MAX_DATA_LEN] = "Jithin";
+    uint32_t err_code;
+    err_code = ble_nus_string_send(&m_nus, data_array, strlen((char*)data_array));
+    APP_ERROR_CHECK(err_code);
+}
+
 int main(void)
 {
     uint32_t err_code;
@@ -170,5 +194,6 @@ int main(void)
     for(;;)
     {
         power_manage();
+        //data_send();
     }
 }
