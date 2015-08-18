@@ -217,10 +217,21 @@ static void power_manage(void)
 
 void data_send()
 {
-    static uint8_t data_array[BLE_NUS_MAX_DATA_LEN] = "J";
-    uint32_t err_code;
-    err_code = ble_nus_string_send(&m_nus, data_array, strlen((char*)data_array));
-    APP_ERROR_CHECK(err_code);
+    static uint8_t data_array[BLE_NUS_MAX_DATA_LEN] = "jithin\n";
+    static uint8_t index = 1;
+    uint32_t       err_code;
+    
+    index++;
+    if ((data_array[index - 1] == '\n') || (index >= (BLE_NUS_MAX_DATA_LEN)))
+    {
+        err_code = ble_nus_string_send(&m_nus, data_array, index);
+        if (err_code != NRF_ERROR_INVALID_STATE)
+        {
+            APP_ERROR_CHECK(err_code);
+        }
+        
+        index = 0;
+    }
 }
 
 int main(void)
@@ -240,7 +251,7 @@ int main(void)
     
     for(;;)
     {
-        power_manage();
+        //power_manage();
         data_send();
         nrf_delay_ms(100);
     }
