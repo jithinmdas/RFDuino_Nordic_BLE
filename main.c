@@ -16,6 +16,7 @@
 #include "ble_conn_params.h"
 #include "ble_nus.h"
 #include "nrf_delay.h"
+#include "ble_hci.h"
 
 #define IS_SRVC_CHANGED_CHARACT_PRESENT 0
 #define DEVICE_NAME                     "RFduino BLE"
@@ -169,6 +170,7 @@ void advertising_init(void)
 
 static void on_adv_evt(ble_adv_evt_t ble_adv_evt)
 {
+    UNUSED_PARAMETER(ble_adv_evt);
 }
 
 static void conn_params_init()
@@ -191,6 +193,13 @@ static void conn_params_init()
 
 static void on_conn_params_evt(ble_conn_params_evt_t * p_evt)
 {
+    uint32_t err_code;
+    
+    if(p_evt->evt_type == BLE_CONN_PARAMS_EVT_FAILED)
+    {
+        err_code = sd_ble_gap_disconnect(m_conn_handle, BLE_HCI_CONN_INTERVAL_UNACCEPTABLE);
+        APP_ERROR_CHECK(err_code);
+    }
 }
 
 static void conn_params_error_handler(uint32_t nrf_error)

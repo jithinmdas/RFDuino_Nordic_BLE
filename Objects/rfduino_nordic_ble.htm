@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rfduino_nordic_ble.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rfduino_nordic_ble.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050169: Last Updated: Tue Aug 18 15:46:51 2015
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050169: Last Updated: Tue Aug 18 15:53:36 2015
 <BR><P>
 <H3>Maximum Stack Usage =        352 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -368,6 +368,7 @@ Global Symbols
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_stack_init
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;advertising_init
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;power_manage
+<LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;on_conn_params_evt
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;on_ble_evt
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;conn_params_init
 <LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;conn_params_error_handler
@@ -664,7 +665,11 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
 </UL>
 
-<P><STRONG><a name="[27]"></a>on_conn_params_evt</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, main.o(i.on_conn_params_evt))
+<P><STRONG><a name="[27]"></a>on_conn_params_evt</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, main.o(i.on_conn_params_evt))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = on_conn_params_evt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_error_handler
+</UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.conn_params_init)
 </UL>
 <P><STRONG><a name="[8d]"></a>power_manage</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, main.o(i.power_manage))

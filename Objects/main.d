@@ -47,3 +47,4 @@
 .\objects\main.o: C:\Keil_v5\ARM\PACK\NordicSemiconductor\nRF_BLE\3.0.0\common\ble_srv_common.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\NordicSemiconductor\nRF_BLE\3.0.0\ble_services\ble_nus\ble_nus.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\NordicSemiconductor\nRF_Drivers\3.0.0\hal\nrf_delay.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\NordicSemiconductor\nRF_SoftDevice_S110\8.0.1\headers\ble_hci.h
