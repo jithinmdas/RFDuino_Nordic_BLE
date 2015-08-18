@@ -15,6 +15,7 @@
 #include "ble_advertising.h"
 #include "ble_conn_params.h"
 #include "ble_nus.h"
+#include "nrf_delay.h"
 
 #define IS_SRVC_CHANGED_CHARACT_PRESENT 0
 #define DEVICE_NAME                     "RFduino BLE"
@@ -29,9 +30,10 @@
 
 #define FIRST_CONN_PARAMS_UPDATE_DELAY  APP_TIMER_TICKS(5000, APP_TIMER_PRESCALER)  
 #define NEXT_CONN_PARAMS_UPDATE_DELAY   APP_TIMER_TICKS(30000, APP_TIMER_PRESCALER) 
-#define MAX_CONN_PARAMS_UPDATE_COUNT    3  
+#define MAX_CONN_PARAMS_UPDATE_COUNT    0  
 
 static ble_nus_t                        m_nus; 
+static uint16_t                         m_conn_handle = BLE_CONN_HANDLE_INVALID;
 
 void scheduler_init(void);
 static void ble_evt_handler(ble_evt_t * p_ble_evt);
@@ -39,6 +41,7 @@ static void on_adv_evt(ble_adv_evt_t ble_adv_evt);
 static void on_conn_params_evt(ble_conn_params_evt_t * p_evt);
 static void conn_params_error_handler(uint32_t nrf_error);
 static void nus_data_handler(ble_nus_t * p_nus, uint8_t * p_data, uint16_t length);
+static void on_ble_evt(ble_evt_t * p_ble_evt);
 
 void ble_stack_init()
 {
@@ -61,7 +64,42 @@ void ble_stack_init()
 
 static void ble_evt_handler(ble_evt_t * p_ble_evt)
 {
+    ble_conn_params_on_ble_evt(p_ble_evt);
+    ble_nus_on_ble_evt(&m_nus, p_ble_evt);
+    on_ble_evt(p_ble_evt);
+    ble_advertising_on_ble_evt(p_ble_evt);
+}
+
+static void on_ble_evt(ble_evt_t * p_ble_evt)
+{
+    uint32_t err_code;
     
+    switch (p_ble_evt->header.evt_id)
+    {
+        case BLE_GAP_EVT_CONNECTED:
+            m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
+            break;
+            
+        case BLE_GAP_EVT_DISCONNECTED:
+            m_conn_handle = BLE_CONN_HANDLE_INVALID;
+            break;
+
+        case BLE_GAP_EVT_SEC_PARAMS_REQUEST:
+            // Pairing not supported
+            err_code = sd_ble_gap_sec_params_reply(m_conn_handle, BLE_GAP_SEC_STATUS_PAIRING_NOT_SUPP, NULL, NULL);
+            APP_ERROR_CHECK(err_code);
+            break;
+
+        case BLE_GATTS_EVT_SYS_ATTR_MISSING:
+            // No system attributes have been stored.
+            err_code = sd_ble_gatts_sys_attr_set(m_conn_handle, NULL, 0, 0);
+            APP_ERROR_CHECK(err_code);
+            break;
+
+        default:
+            // No implementation needed.
+            break;
+    }
 }
 
 /**@brief Function for the GAP initialization.
@@ -170,7 +208,7 @@ static void power_manage(void)
 
 void data_send()
 {
-    static uint8_t data_array[BLE_NUS_MAX_DATA_LEN] = "Jithin";
+    static uint8_t data_array[BLE_NUS_MAX_DATA_LEN] = "J";
     uint32_t err_code;
     err_code = ble_nus_string_send(&m_nus, data_array, strlen((char*)data_array));
     APP_ERROR_CHECK(err_code);
@@ -194,6 +232,7 @@ int main(void)
     for(;;)
     {
         power_manage();
-        //data_send();
+        data_send();
+        nrf_delay_ms(100);
     }
 }
